@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 aliases:
   - &restore-cache
@@ -34,6 +34,9 @@ jobs:
           command: npm run build
 
   integration_tests:
+    parameters:
+      typeorm-version:
+        type: string
     working_directory: ~/nest
     machine: true
     steps:
@@ -57,6 +60,12 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - *install-deps
       - run:
+          name: Install TypeORM << parameters.typeorm-version >>
+          command: npm install typeorm@<< parameters.typeorm-version >> --no-save --ignore-scripts
+      - run:
+          name: Installed TypeORM version
+          command: node -e "console.log(require('typeorm/package.json').version)"
+      - run:
           name: Prepare
           command: |
             docker-compose up -d
@@ -76,3 +85,8 @@ workflows:
       - integration_tests:
           requires:
             - build
+          matrix:
+            parameters:
+              # Run the suite against both the pre-v1 (0.3.x) and v1 (1.x) lines
+              # of TypeORM to guarantee the dual-version support keeps working.
+              typeorm-version: ["0.3", "1"]

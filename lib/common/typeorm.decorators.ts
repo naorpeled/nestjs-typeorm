@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common';
-import { DataSource, DataSourceOptions } from 'typeorm';
 import { EntityClassOrSchema } from '../interfaces/entity-class-or-schema.type';
 import { DEFAULT_DATA_SOURCE_NAME } from '../typeorm.constants';
 import {
+  DataSourceLike,
   getDataSourceToken,
   getEntityManagerToken,
   getRepositoryToken,
@@ -20,10 +20,9 @@ export const InjectRepository = (
  * @publicApi
  */
 export const InjectDataSource: (
-  dataSource?: DataSource | DataSourceOptions | string,
-) => ReturnType<typeof Inject> = (
-  dataSource?: DataSource | DataSourceOptions | string,
-) => Inject(getDataSourceToken(dataSource));
+  dataSource?: DataSourceLike,
+) => ReturnType<typeof Inject> = (dataSource?: DataSourceLike) =>
+  Inject(getDataSourceToken(dataSource));
 
 /** @deprecated */
 export const InjectConnection = InjectDataSource;
@@ -32,7 +31,6 @@ export const InjectConnection = InjectDataSource;
  * @publicApi
  */
 export const InjectEntityManager: (
-  dataSource?: DataSource | DataSourceOptions | string,
-) => ReturnType<typeof Inject> = (
-  dataSource?: DataSource | DataSourceOptions | string,
-) => Inject(getEntityManagerToken(dataSource));
+  dataSource?: DataSourceLike,
+) => ReturnType<typeof Inject> = (dataSource?: DataSourceLike) =>
+  Inject(getEntityManagerToken(dataSource));
