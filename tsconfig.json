@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "ES2021",
+    "isolatedModules": true,
     "sourceMap": false,
     "outDir": "./dist",
     "rootDir": "./lib",
