@@ -1,7 +1,7 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
+import { DataSourceLike } from './common/typeorm.utils';
 import { EntityClassOrSchema } from './interfaces/entity-class-or-schema.type';
 
-type DataSourceToken = DataSource | DataSourceOptions | string;
+type DataSourceToken = DataSourceLike;
 
 export class EntitiesMetadataStorage {
   private static readonly storage = new Map<string, EntityClassOrSchema[]>();
